@@ -1,0 +1,685 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ==========================================================================
+   SOUZA & SOUZA — ADVOCACIA E ASSESSORIA
+   Paleta oficial: Azul #0C344D (brand-900) · Dourado #BEA450 (gold-500)
+   Escalas geradas em OKLCH mantendo o matiz original de cada cor da marca.
+   ========================================================================== */
+
+:root {
+  /* === ESCALA PRIMÁRIA — AZUL MARCA (hue 240.92) === */
+  --brand-50: oklch(0.974 0.01 240.92); /* #F1F7FD */
+  --brand-100: oklch(0.94 0.02 240.92); /* #E0EDF8 */
+  --brand-200: oklch(0.888 0.036 240.92); /* #C6DEF0 */
+  --brand-300: oklch(0.812 0.056 240.92); /* #A2C7E3 */
+  --brand-400: oklch(0.715 0.08 240.92); /* #75AAD1 */
+  --brand-500: oklch(0.615 0.096 240.92); /* #4A8CB9 */
+  --brand-600: oklch(0.51 0.098 240.92); /* #276C99 */
+  --brand-700: oklch(0.425 0.085 240.92); /* #195378 */
+  --brand-800: oklch(0.365 0.072 240.92); /* #134361 */
+  --brand-900: oklch(0.3112 0.0623 240.92); /* #0C344D — OFICIAL */
+  --brand-950: oklch(0.225 0.047 240.92); /* #031E2F */
+
+  /* === ESCALA SECUNDÁRIA — DOURADO MARCA (hue 92.34) === */
+  --gold-50: oklch(0.976 0.02 92.34); /* #FCF7E8 */
+  --gold-100: oklch(0.95 0.038 92.34); /* #F7EED2 */
+  --gold-200: oklch(0.905 0.062 92.34); /* #EEDFB1 */
+  --gold-300: oklch(0.845 0.086 92.34); /* #E0CB8B */
+  --gold-400: oklch(0.785 0.1 92.34); /* #D0B76B */
+  --gold-500: oklch(0.7246 0.1082 92.34); /* #BEA450 — OFICIAL */
+  --gold-600: oklch(0.645 0.105 92.34); /* #A48C3A */
+  --gold-700: oklch(0.555 0.095 92.34); /* #877128 */
+  --gold-800: oklch(0.465 0.08 92.34); /* #69581D */
+  --gold-900: oklch(0.385 0.066 92.34); /* #504214 */
+  --gold-950: oklch(0.285 0.048 92.34); /* #32290A */
+
+  /* === DEGRADÊ DOURADO OFICIAL ===
+     Assinatura da marca em superfícies douradas. Diagonal a 45°, nunca
+     vertical. Os dois pontos ficam em hexadecimal exato — são valores
+     fechados da identidade, e converter para OKLCH introduziria desvio de
+     arredondamento numa cor que precisa bater com o material impresso. */
+  --gold-gradient-from: #d4c575;
+  --gold-gradient-to: #bca14c;
+  --gold-gradient: linear-gradient(
+    45deg,
+    var(--gold-gradient-from),
+    var(--gold-gradient-to)
+  );
+
+  /* === ESCALA NEUTRA — CINZA COM TEMPERATURA AZUL (hue 240) === */
+  --neutral-50: oklch(0.985 0.003 240); /* #F8FAFC */
+  --neutral-100: oklch(0.968 0.004 240); /* #F2F5F7 */
+  --neutral-200: oklch(0.928 0.006 240); /* #E4E8EB */
+  --neutral-300: oklch(0.878 0.008 240); /* #D2D8DC */
+  --neutral-400: oklch(0.742 0.012 240); /* #A5ADB2 */
+  --neutral-500: oklch(0.615 0.014 240); /* #7D868C */
+  --neutral-600: oklch(0.515 0.014 240); /* #61696F */
+  --neutral-700: oklch(0.432 0.013 240); /* #4A5157 */
+  --neutral-800: oklch(0.345 0.012 240); /* #343A3F */
+  --neutral-900: oklch(0.268 0.012 240); /* #21272B */
+  --neutral-950: oklch(0.195 0.012 240); /* #10161A */
+
+  /* === BASE === */
+  --background: oklch(0.994 0.002 240);
+  --foreground: var(--brand-950);
+
+  /* === CARD === */
+  --card: oklch(1 0 0);
+  --card-foreground: var(--brand-950);
+
+  /* === POPOVER / DROPDOWN / TOOLTIP === */
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--brand-950);
+
+  /* === PRIMARY — azul institucional === */
+  --primary: var(--brand-900);
+  --primary-foreground: oklch(0.99 0.004 92);
+
+  /* === SECONDARY — superfície neutra fria === */
+  --secondary: var(--neutral-100);
+  --secondary-foreground: var(--brand-900);
+
+  /* === MUTED === */
+  --muted: var(--neutral-100);
+  --muted-foreground: var(--neutral-600);
+
+  /* === ACCENT — leve tingimento dourado === */
+  --accent: var(--gold-100);
+  --accent-foreground: var(--brand-900);
+
+  /* === DESTRUCTIVE === */
+  --destructive: oklch(0.545 0.195 27);
+  --destructive-foreground: oklch(0.99 0.004 92);
+
+  /* === BORDAS, INPUTS E FOCO === */
+  --border: var(--neutral-200);
+  --input: var(--neutral-300);
+  --ring: var(--brand-600);
+
+  /* === RAIO ===
+     `--radius` (12px) é a unidade de base, da qual saem os cantos pequenos
+     de controle: input, botão, badge.
+
+     `--radius-marca` é o canto oficial da identidade — 25px. É ele que veste
+     card, painel, mídia e qualquer superfície grande, e está exposto como
+     `rounded-2xl`. Fica como token separado, e não como múltiplo de
+     `--radius`, justamente para poder ser ajustado sozinho: mudar o valor
+     aqui reescreve todo `rounded-2xl` do projeto de uma vez, sem tocar nos
+     cantos pequenos. */
+  --radius: 0.75rem;
+  --radius-marca: 1.5625rem; /* 25px — PADRÃO DA MARCA */
+
+  /* === GRÁFICOS === */
+  --chart-1: var(--brand-900);
+  --chart-2: var(--gold-500);
+  --chart-3: var(--brand-500);
+  --chart-4: var(--gold-300);
+  --chart-5: var(--brand-700);
+
+  /* === SIDEBAR === */
+  --sidebar: var(--neutral-50);
+  --sidebar-foreground: var(--brand-950);
+  --sidebar-primary: var(--brand-900);
+  --sidebar-primary-foreground: oklch(0.99 0.004 92);
+  --sidebar-accent: var(--gold-100);
+  --sidebar-accent-foreground: var(--brand-900);
+  --sidebar-border: var(--neutral-200);
+  --sidebar-ring: var(--brand-600);
+
+  /* === MARCA (atalhos semânticos) === */
+  --gold: var(--gold-500);
+  --gold-foreground: var(--brand-950);
+  --navy: var(--brand-900);
+  --navy-foreground: oklch(0.99 0.004 92);
+
+  /* === SEMÂNTICAS === */
+  --success: oklch(0.54 0.125 150);
+  --success-foreground: oklch(0.99 0.004 92);
+  --warning: oklch(0.705 0.16 62);
+  --warning-foreground: var(--brand-950);
+  --info: oklch(0.56 0.1143 232);
+  --info-foreground: oklch(0.99 0.004 92);
+
+  /* === SOMBRAS — tingidas de azul, discretas === */
+  --elevation-2xs: 0 1px 2px 0 oklch(0.225 0.047 240.92 / 0.04);
+  --elevation-xs: 0 1px 3px 0 oklch(0.225 0.047 240.92 / 0.06);
+  --elevation-sm:
+    0 1px 3px 0 oklch(0.225 0.047 240.92 / 0.08),
+    0 1px 2px -1px oklch(0.225 0.047 240.92 / 0.06);
+  --elevation-md:
+    0 4px 10px -2px oklch(0.225 0.047 240.92 / 0.1),
+    0 2px 4px -2px oklch(0.225 0.047 240.92 / 0.06);
+  --elevation-lg:
+    0 12px 24px -6px oklch(0.225 0.047 240.92 / 0.12),
+    0 4px 8px -4px oklch(0.225 0.047 240.92 / 0.06);
+  --elevation-xl:
+    0 24px 48px -12px oklch(0.225 0.047 240.92 / 0.16),
+    0 8px 16px -8px oklch(0.225 0.047 240.92 / 0.08);
+  --elevation-2xl: 0 32px 64px -16px oklch(0.225 0.047 240.92 / 0.24);
+  --elevation-gold: 0 8px 24px -8px oklch(0.7246 0.1082 92.34 / 0.5);
+
+  /* === LIQUID GLASS — material óptico ===
+     A variante Regular da Apple ajusta blur *e luminosidade* do fundo para
+     garantir legibilidade. Sem acesso aos pixels do backdrop, --glass-adjust
+     faz essa normalização de forma aproximada e estática. */
+  --glass-radius: 30px;
+  --glass-tint: oklch(1 0 0);
+  --glass-adjust: contrast(1.08) brightness(1.06);
+  --glass-rim: oklch(1 0 0);
+  --glass-shade: oklch(0.225 0.047 240.92);
+}
+
+.dark {
+  /* === BASE — azul profundo da marca === */
+  --background: oklch(0.185 0.038 240.92);
+  --foreground: oklch(0.965 0.008 92);
+
+  --card: oklch(0.245 0.045 240.92);
+  --card-foreground: oklch(0.965 0.008 92);
+
+  --popover: oklch(0.245 0.045 240.92);
+  --popover-foreground: oklch(0.965 0.008 92);
+
+  /* === PRIMARY — o dourado assume o protagonismo no escuro === */
+  --primary: var(--gold-500);
+  --primary-foreground: oklch(0.185 0.038 240.92);
+
+  --secondary: oklch(0.305 0.05 240.92);
+  --secondary-foreground: oklch(0.965 0.008 92);
+
+  --muted: oklch(0.285 0.045 240.92);
+  --muted-foreground: oklch(0.755 0.022 240);
+
+  --accent: oklch(0.335 0.052 240.92);
+  --accent-foreground: var(--gold-300);
+
+  --destructive: oklch(0.69 0.18 25);
+  --destructive-foreground: oklch(0.185 0.038 240.92);
+
+  --border: oklch(0.98 0.01 92 / 12%);
+  --input: oklch(0.98 0.01 92 / 18%);
+  --ring: var(--gold-500);
+
+  --chart-1: var(--gold-500);
+  --chart-2: var(--brand-400);
+  --chart-3: var(--gold-300);
+  --chart-4: var(--brand-200);
+  --chart-5: var(--gold-700);
+
+  --sidebar: oklch(0.215 0.042 240.92);
+  --sidebar-foreground: oklch(0.965 0.008 92);
+  --sidebar-primary: var(--gold-500);
+  --sidebar-primary-foreground: oklch(0.185 0.038 240.92);
+  --sidebar-accent: oklch(0.305 0.05 240.92);
+  --sidebar-accent-foreground: var(--gold-300);
+  --sidebar-border: oklch(0.98 0.01 92 / 12%);
+  --sidebar-ring: var(--gold-500);
+
+  --gold: var(--gold-500);
+  --gold-foreground: oklch(0.185 0.038 240.92);
+  --navy: var(--brand-800);
+  --navy-foreground: oklch(0.965 0.008 92);
+
+  --success: oklch(0.72 0.15 152);
+  --success-foreground: oklch(0.185 0.038 240.92);
+  --warning: oklch(0.82 0.15 78);
+  --warning-foreground: oklch(0.185 0.038 240.92);
+  --info: oklch(0.73 0.11 232);
+  --info-foreground: oklch(0.185 0.038 240.92);
+
+  --elevation-2xs: 0 1px 2px 0 oklch(0 0 0 / 0.2);
+  --elevation-xs: 0 1px 3px 0 oklch(0 0 0 / 0.3);
+  --elevation-sm:
+    0 1px 3px 0 oklch(0 0 0 / 0.36), 0 1px 2px -1px oklch(0 0 0 / 0.3);
+  --elevation-md:
+    0 4px 10px -2px oklch(0 0 0 / 0.4), 0 2px 4px -2px oklch(0 0 0 / 0.3);
+  --elevation-lg:
+    0 12px 24px -6px oklch(0 0 0 / 0.45), 0 4px 8px -4px oklch(0 0 0 / 0.3);
+  --elevation-xl:
+    0 24px 48px -12px oklch(0 0 0 / 0.5), 0 8px 16px -8px oklch(0 0 0 / 0.35);
+  --elevation-2xl: 0 32px 64px -16px oklch(0 0 0 / 0.6);
+  --elevation-gold: 0 8px 28px -8px oklch(0.7246 0.1082 92.34 / 0.35);
+
+  /* Vidro escuro tingido de azul da marca, em vez de cinza neutro. */
+  --glass-tint: oklch(0.32 0.05 240.92);
+  --glass-adjust: contrast(1.06) brightness(0.94);
+  --glass-rim: oklch(0.98 0.01 92);
+  --glass-shade: oklch(0 0 0);
+}
+
+@theme inline {
+  /* Tipografia — Trajan Pro (display, da identidade) + Inter (texto/UI) */
+  --font-display:
+    var(--font-trajan), "Trajan Pro", "Times New Roman", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* Superfícies e texto */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Gráficos */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Marca e semânticas */
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-navy: var(--navy);
+  --color-navy-foreground: var(--navy-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+
+  /* Escalas completas → bg-brand-500, text-gold-700, border-neutral-200… */
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+  --color-brand-950: var(--brand-950);
+  --color-gold-50: var(--gold-50);
+  --color-gold-100: var(--gold-100);
+  --color-gold-200: var(--gold-200);
+  --color-gold-300: var(--gold-300);
+  --color-gold-400: var(--gold-400);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+  --color-gold-700: var(--gold-700);
+  --color-gold-800: var(--gold-800);
+  --color-gold-900: var(--gold-900);
+  --color-gold-950: var(--gold-950);
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+  --color-neutral-950: var(--neutral-950);
+
+  /* Raio — cantos generosos, conforme a evolução da marca.
+     Até `xl` a escala deriva de --radius (controles). De `2xl` para cima ela
+     deriva de --radius-marca (superfícies), com 2xl = 25px como padrão. */
+  --radius-sm: calc(var(--radius) * 0.5); /* 6px */
+  --radius-md: calc(var(--radius) * 0.75); /* 9px */
+  --radius-lg: var(--radius); /* 12px */
+  --radius-xl: calc(var(--radius) * 1.35); /* 16px */
+  --radius-2xl: var(--radius-marca); /* 25px — PADRÃO */
+  --radius-3xl: calc(var(--radius-marca) * 1.2); /* 30px */
+  --radius-4xl: calc(var(--radius-marca) * 1.6); /* 40px */
+
+  /* Sombras */
+  --shadow-2xs: var(--elevation-2xs);
+  --shadow-xs: var(--elevation-xs);
+  --shadow-sm: var(--elevation-sm);
+  --shadow-md: var(--elevation-md);
+  --shadow-lg: var(--elevation-lg);
+  --shadow-xl: var(--elevation-xl);
+  --shadow-2xl: var(--elevation-2xl);
+  --shadow-gold: var(--elevation-gold);
+
+  /* Curvas de movimento.
+     `marca` é a mesma curva que o liquid glass já usa — decelera forte e
+     assenta sem overshoot. Vira token para que entrada de seção, hover de card
+     e material de vidro compartilhem o mesmo tempo. */
+  --ease-marca: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-saida: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+  html {
+    @apply font-sans;
+  }
+  /* Trajan Pro é uma capitular: rende melhor com espaçamento aberto */
+  .font-display {
+    letter-spacing: 0.02em;
+  }
+}
+
+@utility text-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.03em;
+  line-height: 1.15;
+}
+
+/* Degradê dourado oficial — bg-gold-gradient */
+@utility bg-gold-gradient {
+  background-image: var(--gold-gradient);
+}
+
+/* Texto preenchido com o degradê dourado */
+@utility text-gold-gradient {
+  background-image: var(--gold-gradient);
+  background-clip: text;
+  color: transparent;
+}
+
+/* Filete dourado — recurso gráfico recorrente da identidade */
+@utility rule-gold {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--gold-500),
+    transparent
+  );
+}
+
+/* ==========================================================================
+   MOTION DE SCROLL
+   Uma seção entra uma única vez, com fade e um deslocamento curto. O estado
+   inicial mora aqui no CSS; o JS só marca `data-revelar="visivel"` quando o
+   IntersectionObserver dispara. Assim a transição roda inteira no compositor —
+   só `opacity` e `transform`, nada que force layout durante o scroll.
+   ========================================================================== */
+
+@layer components {
+  [data-revelar] {
+    opacity: 0;
+    transform: translate3d(var(--revelar-x, 0), var(--revelar-y, 0), 0)
+      scale(var(--revelar-escala, 1));
+    transition:
+      opacity var(--revelar-duracao, 620ms) var(--ease-saida)
+        var(--revelar-atraso, 0ms),
+      transform var(--revelar-duracao, 620ms) var(--ease-saida)
+        var(--revelar-atraso, 0ms);
+  }
+
+  [data-revelar="visivel"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Deslocamentos curtos de propósito: o movimento orienta o olho, não
+     transporta o conteúdo pela tela. */
+  [data-revelar][data-variante="subir"] {
+    --revelar-y: 1.25rem;
+  }
+  [data-revelar][data-variante="esquerda"] {
+    --revelar-x: -1.75rem;
+  }
+  [data-revelar][data-variante="direita"] {
+    --revelar-x: 1.75rem;
+  }
+  [data-revelar][data-variante="zoom"] {
+    --revelar-escala: 0.965;
+  }
+
+  /* Deslocamento lateral vira vertical no celular: numa tela estreita, entrar
+     pela lateral cria overflow horizontal e lê como erro de layout. */
+  @media (width < 48rem) {
+    [data-revelar][data-variante="esquerda"],
+    [data-revelar][data-variante="direita"] {
+      --revelar-x: 0;
+      --revelar-y: 1rem;
+    }
+  }
+
+  /* Parallax e tilt: o JS escreve as custom properties, o CSS as compõe numa
+     transform só. Sem transição — o valor já vem interpolado pelo scroll. */
+  [data-parallax] {
+    transform: translate3d(0, var(--parallax-y, 0px), 0)
+      rotate(var(--parallax-rotacao, 0deg));
+  }
+
+  /* Reduce Motion: o conteúdo nasce no lugar e nada se move. Sem exceção. */
+  @media (prefers-reduced-motion: reduce) {
+    [data-revelar],
+    [data-revelar="visivel"] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    [data-parallax] {
+      transform: none;
+    }
+  }
+}
+
+/* ==========================================================================
+   LIQUID GLASS
+   O deslocamento óptico vive num filtro SVG gerado em runtime; tudo aqui são
+   as camadas que ficam por cima dele — tint, borda, grão e sombra.
+   ========================================================================== */
+
+@property --lg-rim {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0.4;
+}
+
+@layer components {
+  .liquid-glass {
+    --lg-rim-hair: color-mix(
+      in oklab,
+      var(--glass-rim) calc(var(--lg-rim, 0.4) * 58%),
+      transparent
+    );
+    --lg-rim-soft: color-mix(
+      in oklab,
+      var(--glass-rim) calc(var(--lg-rim, 0.4) * 26%),
+      transparent
+    );
+    --lg-core-shade: color-mix(
+      in oklab,
+      var(--glass-shade) calc(var(--lg-rim, 0.4) * 18%),
+      transparent
+    );
+
+    position: relative;
+    isolation: isolate;
+
+    -webkit-backdrop-filter: var(--lg-backdrop);
+    backdrop-filter: var(--lg-backdrop);
+
+    /* Grão, tint e camada de dimming. Backgrounds sempre pintam abaixo do
+       conteúdo, então nada disso interfere na legibilidade do texto nem exige
+       acrobacia de z-index. */
+    background-image:
+      var(--lg-noise-image, none),
+      linear-gradient(var(--lg-tint-layer), var(--lg-tint-layer)),
+      linear-gradient(var(--lg-dim-layer), var(--lg-dim-layer));
+    background-blend-mode: overlay, normal, normal;
+
+    /* A borda é uniforme em todo o perímetro. Um vidro real capta luz ao longo
+       de toda a aresta; enviesar para um lado lê como sombra projetada, não
+       como aresta. Os dois últimos inset compõem a espessura — um halo interno
+       claro e um núcleo levemente sombreado. */
+    box-shadow:
+      var(--lg-shadow, none),
+      inset 0 0 0 0.5px var(--lg-rim-hair),
+      inset 0 0 calc(var(--lg-depth, 16px) * 0.55)
+        calc(var(--lg-depth, 16px) * -0.35) var(--lg-rim-soft),
+      inset 0 0 calc(var(--lg-depth, 16px) * 2.4)
+        calc(var(--lg-depth, 16px) * -1.1) var(--lg-core-shade);
+
+    transform: translateZ(0);
+  }
+
+  /* Espessura graduada no tier `frosted`.
+     Safari e Firefox não executam o deslocamento geométrico, então a percepção
+     de espessura vem de um segundo nível de blur concentrado nas bordas. Vive
+     em z-index negativo para ficar atrás do conteúdo — caso contrário o próprio
+     backdrop-filter borraria o texto do componente. */
+  .liquid-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    display: none;
+    border-radius: inherit;
+    pointer-events: none;
+
+    -webkit-backdrop-filter: blur(var(--lg-ring-blur, 8px));
+    backdrop-filter: blur(var(--lg-ring-blur, 8px));
+
+    /* União de quatro rampas, uma por aresta: opaco junto à borda, transparente
+       no miolo. A largura da faixa é medida em px para não deformar em
+       elementos muito largos ou muito altos. */
+    -webkit-mask-image:
+      linear-gradient(to right, #000, transparent var(--lg-band, 40px)),
+      linear-gradient(to left, #000, transparent var(--lg-band, 40px)),
+      linear-gradient(to bottom, #000, transparent var(--lg-band, 40px)),
+      linear-gradient(to top, #000, transparent var(--lg-band, 40px));
+    mask-image:
+      linear-gradient(to right, #000, transparent var(--lg-band, 40px)),
+      linear-gradient(to left, #000, transparent var(--lg-band, 40px)),
+      linear-gradient(to bottom, #000, transparent var(--lg-band, 40px)),
+      linear-gradient(to top, #000, transparent var(--lg-band, 40px));
+    mask-composite: add, add, add, add;
+  }
+
+  .liquid-glass[data-tier="frosted"]::before {
+    display: block;
+  }
+
+  /* Sem transparência: superfície opaca do design system, zero filtros.
+     Espelha o que o iOS faz sob Reduce Transparency. */
+  .liquid-glass[data-tier="solid"] {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background-image: none;
+    background-color: var(--card);
+    box-shadow: var(--lg-shadow, none);
+    border: 1px solid var(--border);
+  }
+
+  .liquid-glass[data-elevation="none"] {
+    --lg-shadow: none;
+  }
+  .liquid-glass[data-elevation="sm"] {
+    --lg-shadow: var(--elevation-sm);
+  }
+  .liquid-glass[data-elevation="md"] {
+    --lg-shadow: var(--elevation-md);
+  }
+  .liquid-glass[data-elevation="lg"] {
+    --lg-shadow: var(--elevation-lg);
+  }
+  .liquid-glass[data-elevation="xl"] {
+    --lg-shadow: var(--elevation-xl);
+  }
+
+  /* O material da Apple recua ao toque. Só transform e uma custom property
+     registrada, então tudo resolve no compositor. */
+  .liquid-glass[data-interactive] {
+    transition:
+      transform 240ms cubic-bezier(0.32, 0.72, 0, 1),
+      --lg-rim 240ms cubic-bezier(0.32, 0.72, 0, 1);
+    cursor: pointer;
+  }
+  .liquid-glass[data-interactive]:active {
+    transform: translateZ(0) scale(0.982);
+  }
+
+  .liquid-glass[data-variant="clear"] {
+    --lg-core-shade: transparent;
+  }
+
+  /* Increase Contrast: aresta sólida em vez de insinuada. */
+  @media (prefers-contrast: more) {
+    .liquid-glass {
+      outline: 1px solid var(--border);
+      outline-offset: -1px;
+    }
+  }
+
+  /* Reduce Motion elimina o lensing dinâmico no iOS. Aqui o lensing estático
+     permanece — é a identidade do material — mas nada mais se move. */
+  @media (prefers-reduced-motion: reduce) {
+    .liquid-glass[data-interactive] {
+      transition: none;
+    }
+    .liquid-glass[data-interactive]:active {
+      transform: translateZ(0);
+    }
+  }
+}
+
+/*
+ * Escala tipográfica 90% — variação 5 (/site5), pedido do usuário em
+ * 24/09/2026: todo o texto e os botões 10% menores, exceto o menu superior.
+ * Os tamanhos arbitrários do site 5 (`text-[clamp(...)]`) já foram
+ * multiplicados por 0,9 no código; esta classe faz o mesmo com a escala
+ * padrão do Tailwind (text-xs … text-6xl), usada por botões, rótulos e
+ * formulário. `.tipo-100` devolve os valores originais (header).
+ */
+.tipo-90 {
+  --text-xs: 0.675rem;
+  --text-sm: 0.7875rem;
+  --text-base: 0.9rem;
+  --text-lg: 1.0125rem;
+  --text-xl: 1.125rem;
+  --text-2xl: 1.35rem;
+  --text-3xl: 1.6875rem;
+  --text-4xl: 2.025rem;
+  --text-5xl: 2.7rem;
+  --text-6xl: 3.375rem;
+}
+.tipo-100 {
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+}
